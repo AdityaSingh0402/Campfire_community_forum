@@ -1,0 +1,4 @@
+﻿import mongoose from 'mongoose';
+const comment=new mongoose.Schema({author:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},body:{type:String,required:true,trim:true,maxlength:3000},createdAt:{type:Date,default:Date.now}});
+const schema=new mongoose.Schema({title:{type:String,required:true,trim:true,minlength:4,maxlength:180},body:{type:String,required:true,trim:true,minlength:8,maxlength:12000},topic:{type:String,enum:['General','Technology','Design','Career','Projects','Questions'],required:true},author:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},votes:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],comments:[comment],reports:[{reporter:{type:mongoose.Schema.Types.ObjectId,ref:'User'},reason:{type:String,maxlength:500},createdAt:{type:Date,default:Date.now}}]},{timestamps:true});
+schema.index({title:'text',body:'text'});export default mongoose.model('Post',schema);
